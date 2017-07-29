@@ -71,8 +71,7 @@ class MbsCheckinViewController: UIViewController, UITableViewDataSource, UITable
 //        self.automaticallyAdjustsScrollViewInsets = false
         
     }
-    
-    
+        
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -86,43 +85,25 @@ class MbsCheckinViewController: UIViewController, UITableViewDataSource, UITable
         return numberOfRows
     }
     
-    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath as IndexPath)
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? MbsCheckinTableViewCell else {
-            fatalError("The dequeued cell is not an instance of MbsCheckinTableViewCell.")
-        }
+    func customLines(cell: MbsCheckinTableViewCell) {
         
-        // disable separator line
-        tableView.separatorStyle = .none
-        
-        // Fetch Fruit
-        let fruit = fruits[indexPath.row]
-        print(fruit)
-        // Configure Cell
-//        cell.textLabel?.text = fruit
-        cell.uiLabelDate?.text = "Thứ 2, 01/01/9999"
-        cell.uiLabelAddressShortIn?.text = "40 Phạm Ngọc Thạch"
-        cell.uiLabelAddressShortIn.sizeToFit()
-        cell.uiLabelAddressLongIn?.text = "Phường 6, Quận 3, Hồ Chí Minh"
-        cell.uiLabelAddressLongIn.sizeToFit()
-        cell.uiLabelTimeIn?.text = "08:00 AM"
-        
+        let tableWidth = cell.uiViewContainerIn.frame.size.width
         let color = UIColor(red: 0.347604, green: 0.718512, blue: 0.896682, alpha: 1.0).cgColor
         let width = CGFloat(1.0)
         let br = CALayer()
         br.borderColor = color
         br.borderWidth = width
-        br.frame = CGRect(x: cell.uiViewContainerIn.frame.size.width - width, y: 0, width: width, height: cell.uiViewContainerIn.frame.size.height)
+        br.frame = CGRect(x: tableWidth - width, y: 0, width: width, height: cell.uiViewContainerIn.frame.size.height)
         
         let bt = CALayer()
         bt.borderColor = color
         bt.borderWidth = width
-        bt.frame = CGRect(x: 35.0, y: 0, width: cell.uiViewContainerIn.frame.size.width - 35.0, height: width)
+        bt.frame = CGRect(x: 35.0, y: 0, width: tableWidth - 35.0 - width, height: width)
         
         let bb = CALayer()
         bb.borderColor = color
         bb.borderWidth = width
-        bb.frame = CGRect(x: 0, y: cell.uiViewContainerIn.frame.size.height - width, width: cell.uiViewContainerIn.frame.size.width, height: width)
+        bb.frame = CGRect(x: 0, y: cell.uiViewContainerIn.frame.size.height - width, width: tableWidth - width, height: width)
         
         let bl = CALayer()
         bl.borderColor = color
@@ -186,26 +167,21 @@ class MbsCheckinViewController: UIViewController, UITableViewDataSource, UITable
         cell.uiViewContainerTimeIn.layer.mask = rectShape
         
         // column check out
-        cell.uiLabelAddressShortOut?.text = "41 Thạch Ngọc Phạm"
-        cell.uiLabelAddressShortOut.sizeToFit()
-        cell.uiLabelAddressLongOut?.text = "Phường 3, Quận 6, Hồ Chí Minh"
-        cell.uiLabelAddressLongOut.sizeToFit()
-        cell.uiLabelTimeOut?.text = "05:01 PM"
         
         let bro = CALayer()
         bro.borderColor = color
         bro.borderWidth = width
-        bro.frame = CGRect(x: cell.uiViewContainerOut.frame.size.width - width, y: 0, width: width, height: cell.uiViewContainerOut.frame.size.height)
+        bro.frame = CGRect(x: tableWidth - width, y: 0, width: width, height: cell.uiViewContainerOut.frame.size.height)
         
         let bto = CALayer()
         bto.borderColor = color
         bto.borderWidth = width
-        bto.frame = CGRect(x: 35.0, y: 0, width: cell.uiViewContainerOut.frame.size.width - 35.0, height: width)
+        bto.frame = CGRect(x: 35.0, y: 0, width: tableWidth - 35.0, height: width)
         
         let bbo = CALayer()
         bbo.borderColor = color
         bbo.borderWidth = width
-        bbo.frame = CGRect(x: 0, y: cell.uiViewContainerOut.frame.size.height - width, width: cell.uiViewContainerOut.frame.size.width, height: width)
+        bbo.frame = CGRect(x: 0, y: cell.uiViewContainerOut.frame.size.height - width, width: tableWidth, height: width)
         
         let blo = CALayer()
         blo.borderColor = color
@@ -267,7 +243,37 @@ class MbsCheckinViewController: UIViewController, UITableViewDataSource, UITable
         
         cell.uiViewContainerTimeOut.layer.backgroundColor = color
         cell.uiViewContainerTimeOut.layer.mask = rectShapeo
-
+    }
+    
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath as IndexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? MbsCheckinTableViewCell else {
+            fatalError("The dequeued cell is not an instance of MbsCheckinTableViewCell.")
+        }
+        
+        // disable separator line
+        tableView.separatorStyle = .none
+        
+        // Fetch Fruit
+//        let fruit = fruits[indexPath.row]
+//        print(fruit)
+        // Configure Cell
+//        cell.textLabel?.text = fruit
+        cell.uiLabelDate?.text = "Thứ 2, 01/01/9999"
+        
+        cell.uiLabelAddressShortIn?.text = "40 Phạm Ngọc Thạch"
+        cell.uiLabelAddressShortIn.sizeToFit()
+        cell.uiLabelAddressLongIn?.text = "Phường 6, Quận 3, Hồ Chí Minh"
+        cell.uiLabelAddressLongIn.sizeToFit()
+        cell.uiLabelTimeIn?.text = "08:00 AM"
+        
+        cell.uiLabelAddressShortOut?.text = "41 Thạch Ngọc Phạm"
+        cell.uiLabelAddressShortOut.sizeToFit()
+        cell.uiLabelAddressLongOut?.text = "Phường 3, Quận 6, Hồ Chí Minh"
+        cell.uiLabelAddressLongOut.sizeToFit()
+        cell.uiLabelTimeOut?.text = "05:30 PM"
+        
+        perform(#selector(customLines), with: cell, afterDelay: 0)
         
         return cell
     }

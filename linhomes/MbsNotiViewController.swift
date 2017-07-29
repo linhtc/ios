@@ -120,6 +120,7 @@ class MbsNotiViewController: UIViewController, UITableViewDataSource, UITableVie
             uiBtnPrivate.layer.addSublayer(br)
             uiBtnPrivate.layer.masksToBounds = true
             uiBtnPrivate.backgroundColor = UIColor.white
+            uiBtnPrivate.setTitleColor(UIColor(red: 0.347604, green: 0.718512, blue: 0.896682, alpha: 1.0), for: .normal)
             indexTab = 0
             
             fruits = ["Apple", "Pineapple", "Orange", "Blackberry", "Banana", "Lemon", "Coconut", "Cherry"]
@@ -144,6 +145,7 @@ class MbsNotiViewController: UIViewController, UITableViewDataSource, UITableVie
             uiBtnPublic.layer.addSublayer(br)
             uiBtnPublic.layer.masksToBounds = true
             uiBtnPublic.backgroundColor = UIColor.white
+            uiBtnPublic.setTitleColor(UIColor(red: 0.347604, green: 0.718512, blue: 0.896682, alpha: 1.0), for: .normal)
             indexTab = 1
             
             fruits = ["Coconut", "Cherry", "Pie", "Pic", "Pu", "Pe", "Pa", "Apple", "Pineapple", "Orange", "Blackberry", "Banana", "Lemon"]
