@@ -23,6 +23,7 @@
 		3597B6B51F1DBB1D006EF8F1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3597B6B41F1DBB1D006EF8F1 /* User.swift */; };
 		35A8147C1F1EF980005B0032 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A8147B1F1EF980005B0032 /* RegisterViewController.swift */; };
 		35B938531F2A31F800279451 /* MbsNotiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B938521F2A31F800279451 /* MbsNotiViewController.swift */; };
+		35C95AEF1F2F785300F63419 /* MbsMissingPassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C95AEE1F2F785300F63419 /* MbsMissingPassViewController.swift */; };
 		35C9D5221F25997F00FAD87F /* DeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C9D5211F25997F00FAD87F /* DeviceViewController.swift */; };
 		35E87AFB1F285B9500A41DC1 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35E87AFA1F285B9500A41DC1 /* Roboto-Medium.ttf */; };
 		35E87AFD1F285C0900A41DC1 /* RobotoCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35E87AFC1F285C0900A41DC1 /* RobotoCondensed-Light.ttf */; };
@@ -56,6 +57,7 @@
 		3597B6B41F1DBB1D006EF8F1 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		35A8147B1F1EF980005B0032 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		35B938521F2A31F800279451 /* MbsNotiViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MbsNotiViewController.swift; sourceTree = "<group>"; };
+		35C95AEE1F2F785300F63419 /* MbsMissingPassViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MbsMissingPassViewController.swift; sourceTree = "<group>"; };
 		35C9D5211F25997F00FAD87F /* DeviceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceViewController.swift; sourceTree = "<group>"; };
 		35E87AFA1F285B9500A41DC1 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Medium.ttf"; path = "../../../../Downloads/Roboto/Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		35E87AFC1F285C0900A41DC1 /* RobotoCondensed-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "RobotoCondensed-Light.ttf"; path = "../../../../Downloads/Roboto_Condensed/RobotoCondensed-Light.ttf"; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				359550601F276CAE006578D3 /* MbsDashboardViewController.swift */,
 				35F303261F288D40001B6E14 /* MbsCheckinViewController.swift */,
 				35B938521F2A31F800279451 /* MbsNotiViewController.swift */,
+				35C95AEE1F2F785300F63419 /* MbsMissingPassViewController.swift */,
 			);
 			path = linhomes;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 				35EEAB4C1F1F628700C4DD3D /* Device.swift in Sources */,
 				35A8147C1F1EF980005B0032 /* RegisterViewController.swift in Sources */,
 				35F303271F288D40001B6E14 /* MbsCheckinViewController.swift in Sources */,
+				35C95AEF1F2F785300F63419 /* MbsMissingPassViewController.swift in Sources */,
 				3597B6B51F1DBB1D006EF8F1 /* User.swift in Sources */,
 				35F3CE781F1DBE220039AD37 /* LinhomesDB.swift in Sources */,
 				3502EB221F1C99EC00CAFF15 /* ScanViewController.swift in Sources */,
@@ -433,11 +437,14 @@
 			baseConfigurationReference = F049F40088E6DC5C65DA4E46 /* Pods-linhomes.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 86V364Z564;
 				INFOPLIST_FILE = linhomes/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.linhtek.linhomes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -447,11 +454,14 @@
 			baseConfigurationReference = 3C964DC596629BB813122053 /* Pods-linhomes.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 86V364Z564;
 				INFOPLIST_FILE = linhomes/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.linhtek.linhomes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

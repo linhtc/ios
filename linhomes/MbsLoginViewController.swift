@@ -8,12 +8,13 @@
 
 import UIKit
 
-class MbsLoginViewController: UIViewController {
+class MbsLoginViewController: UIViewController, UITextFieldDelegate {
 
     //MARK: Properties
     
     @IBOutlet weak var uiTextUsername: UITextField!
     @IBOutlet weak var uiTextPassword: UITextField!
+    @IBOutlet weak var uiLabelMissingPass: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +55,12 @@ class MbsLoginViewController: UIViewController {
         // delegate
         uiTextUsername.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         uiTextPassword.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-
+        
+        uiTextUsername.delegate = self
+        uiTextUsername.returnKeyType = .next
+        
+        uiTextPassword.delegate = self
+        uiTextPassword.returnKeyType = .done
         
         // create test user
         let user = User.init(phone: "mbs", name: "Mobiistar", password: "123", status: 0, sync: 0)
@@ -67,11 +73,35 @@ class MbsLoginViewController: UIViewController {
             print("Update user \(user.phone) -> \(ret)")
 
         }
+        
+        let tapMissingPass = UITapGestureRecognizer(target: self, action: #selector(handleTapServices))
+        uiLabelMissingPass.addGestureRecognizer(tapMissingPass)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == uiTextUsername{
+            uiTextPassword.becomeFirstResponder()
+        } else{
+            textField.resignFirstResponder()
+            performLogin()
+        }
+        return true
+    }
+    
+    func handleTapServices(_ sender: UITapGestureRecognizer) {
+        if sender.view == uiLabelMissingPass{
+            print("uiLabelMissingPass");
+            let VC1 = self.storyboard!.instantiateViewController(withIdentifier: "MissingPassContainerID") as! MbsMissingPassViewController
+            let navController = UINavigationController(rootViewController: VC1)
+            self.present(navController, animated:true, completion: nil)
+        } else{
+            print("Hi");
+        }
     }
     
     func textFieldDidChange(_ textField: UITextField) {
@@ -92,12 +122,16 @@ class MbsLoginViewController: UIViewController {
     }
     
     // MARK: - Navigation
-
+    
     @IBAction func login(_ sender: UIButton) {
+        performLogin()
+    }
+    
+    func performLogin(){
         print("login...")
         let phone = uiTextUsername.text ?? ""
         let password = uiTextPassword.text ?? ""
-
+        
         if phone.isEmpty{
             if (uiTextUsername.layer.sublayers?.count)! < 4{
                 let layer = CALayer()

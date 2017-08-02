@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class MbsCheckinTableViewCell: UITableViewCell {
     @IBOutlet weak var uiLabelDate: UILabel!
@@ -25,7 +26,7 @@ class MbsCheckinTableViewCell: UITableViewCell {
 
 }
 
-class MbsCheckinViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MbsCheckinViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate {
 
     //MARK: Properties
     
@@ -33,7 +34,10 @@ class MbsCheckinViewController: UIViewController, UITableViewDataSource, UITable
     var addressLong = ""
     var addressShort = ""
     var fruits: [String] = []
+    var currLat = 0.0
+    var currLong = 0.0
     let cellIdentifier = "CellIdentifier"
+    let locationMgr = CLLocationManager()
     
     @IBOutlet weak var uiImageMap: UIImageView!
     @IBOutlet weak var uiScrollView: UIScrollView!
@@ -45,7 +49,66 @@ class MbsCheckinViewController: UIViewController, UITableViewDataSource, UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // load data to history view
+        fruits = ["Apple", "Pineapple", "Orange"]
+        
+        // 1
+        let status  = CLLocationManager.authorizationStatus()
+        
+        // 2
+        if status == .notDetermined {
+            locationMgr.requestWhenInUseAuthorization()
+            return
+        }
+        
+        // 3
+        if status == .denied || status == .restricted {
+            let alert = UIAlertController(title: "Location Services Disabled", message: "Please enable Location Services in Settings", preferredStyle: .alert)
+            
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(okAction)
+            
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        // 4
+        locationMgr.delegate = self
+        locationMgr.startUpdatingLocation()
+        
+//        // show loading
+//        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+//        loadingIndicator.hidesWhenStopped = true
+//        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+//        loadingIndicator.startAnimating();
+//        alert.view.addSubview(loadingIndicator)
+//        present(alert, animated: true, completion: nil)
+//                
+//        // load map to view
+//        perform(#selector(loadMap), with: nil, afterDelay: 0)
+    }
 
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+//        uiScrollView.contentSize = CGSize(width: 1.0, height: 1200.0)
+//        self.automaticallyAdjustsScrollViewInsets = false
+        
+    }
+    
+    // 1
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let currentLocation = locations.last!
+        print("Current location: \(currentLocation)")
+        currLat = currentLocation.coordinate.latitude
+        currLong = currentLocation.coordinate.longitude
+        print("Lat: \(currLat), Long: \(currLong)")
+        
         // show loading
         let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
         loadingIndicator.hidesWhenStopped = true
@@ -53,25 +116,34 @@ class MbsCheckinViewController: UIViewController, UITableViewDataSource, UITable
         loadingIndicator.startAnimating();
         alert.view.addSubview(loadingIndicator)
         present(alert, animated: true, completion: nil)
-                
+        
         // load map to view
         perform(#selector(loadMap), with: nil, afterDelay: 0)
-        
-        // load data to history view
-        fruits = ["Apple", "Pineapple", "Orange"]
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    // 2
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Error \(error)")
     }
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-//        uiScrollView.contentSize = CGSize(width: 1.0, height: 1200.0)
-//        self.automaticallyAdjustsScrollViewInsets = false
-        
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
+                if CLLocationManager.isRangingAvailable() {
+                    // show loading
+                    let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+                    loadingIndicator.hidesWhenStopped = true
+                    loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+                    loadingIndicator.startAnimating();
+                    alert.view.addSubview(loadingIndicator)
+                    present(alert, animated: true, completion: nil)
+                    
+                    // load map to view
+                    perform(#selector(loadMap), with: nil, afterDelay: 0)
+                }
+            }
+        }
     }
-        
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -280,8 +352,12 @@ class MbsCheckinViewController: UIViewController, UITableViewDataSource, UITable
     
     func loadMap(){
         print("loadMap...")
-        let lat = 10.785092
-        let long = 106.6913373
+//        let lat = currLat// 10.785092
+//        let long = currLong// 106.6913373
+        
+        let lat = currLat// 10.785092
+        let long = currLong// 106.6913373
+        
         let staticMapUrl: String = "http://maps.google.com/maps/api/staticmap?markers=color:red|\(lat),\(long)&\("zoom=16&size=\(1 * Int(uiImageMap.frame.size.width))x\(1 * Int(uiImageMap.frame.size.height))")&sensor=true"
         print(staticMapUrl)
         let url = URL(string: staticMapUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)

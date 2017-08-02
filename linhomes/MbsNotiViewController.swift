@@ -127,6 +127,7 @@ class MbsNotiViewController: UIViewController, UITableViewDataSource, UITableVie
             self.uiTableViewMessage.reloadData()
         }
     }
+    
     @IBAction func publicMessage(_ sender: UIButton) {
         if indexTab == 0{
             if (uiBtnPrivate.layer.sublayers?.count)! > 1{
