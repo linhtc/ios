@@ -77,16 +77,16 @@ class MbsCheckinViewController: UIViewController, UITableViewDataSource, UITable
         locationMgr.delegate = self
         locationMgr.startUpdatingLocation()
         
-//        // show loading
-//        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
-//        loadingIndicator.hidesWhenStopped = true
-//        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
-//        loadingIndicator.startAnimating();
-//        alert.view.addSubview(loadingIndicator)
-//        present(alert, animated: true, completion: nil)
-//                
-//        // load map to view
-//        perform(#selector(loadMap), with: nil, afterDelay: 0)
+        // show loading
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        loadingIndicator.startAnimating();
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
+
+        // load map to view
+        perform(#selector(loadMap), with: nil, afterDelay: 0)
     }
 
     override func didReceiveMemoryWarning() {
@@ -109,16 +109,6 @@ class MbsCheckinViewController: UIViewController, UITableViewDataSource, UITable
         currLong = currentLocation.coordinate.longitude
         print("Lat: \(currLat), Long: \(currLong)")
         
-        // show loading
-        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
-        loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
-        loadingIndicator.startAnimating();
-        alert.view.addSubview(loadingIndicator)
-        present(alert, animated: true, completion: nil)
-        
-        // load map to view
-        perform(#selector(loadMap), with: nil, afterDelay: 0)
     }
     
     // 2
@@ -136,7 +126,7 @@ class MbsCheckinViewController: UIViewController, UITableViewDataSource, UITable
                     loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
                     loadingIndicator.startAnimating();
                     alert.view.addSubview(loadingIndicator)
-                    present(alert, animated: true, completion: nil)
+                    self.present(alert, animated: true, completion: nil)
                     
                     // load map to view
                     perform(#selector(loadMap), with: nil, afterDelay: 0)
