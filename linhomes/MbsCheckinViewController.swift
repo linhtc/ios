@@ -53,6 +53,21 @@ class MbsCheckinViewController: UIViewController, UITableViewDataSource, UITable
         // load data to history view
         fruits = ["Apple", "Pineapple", "Orange"]
         
+        // animation checkin button
+        UIView.animate(withDuration: 1.0, delay: 5.0, options: [.repeat, .autoreverse], animations: {
+            self.uiButtonCheckin.transform = CGAffineTransform.identity.scaledBy(x: 1.3, y: 1.3)
+        }, completion: { (finish) in
+            UIView.animate(withDuration: 0.6, animations: {
+                self.uiButtonCheckin.transform = CGAffineTransform.identity
+            })
+        })
+        
+        // register tap for checkin button
+        let tabCheckin = UILongPressGestureRecognizer(target: self, action: #selector(handleTapServices))
+        tabCheckin.minimumPressDuration = 1.0
+        
+        uiButtonCheckin.addGestureRecognizer(tabCheckin)
+        
         // 1
         let status  = CLLocationManager.authorizationStatus()
         
@@ -99,6 +114,16 @@ class MbsCheckinViewController: UIViewController, UITableViewDataSource, UITable
 //        uiScrollView.contentSize = CGSize(width: 1.0, height: 1200.0)
 //        self.automaticallyAdjustsScrollViewInsets = false
         
+    }
+    
+    func handleTapServices(_ sender: UITapGestureRecognizer) {
+        if sender.view == uiButtonCheckin{
+            print("uiButtonCheckin");
+            let generator = UIImpactFeedbackGenerator(style: .light)
+            generator.impactOccurred()
+        } else{
+            print("Hi");
+        }
     }
     
     // 1

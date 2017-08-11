@@ -15,6 +15,10 @@ class MbsLoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var uiTextUsername: UITextField!
     @IBOutlet weak var uiTextPassword: UITextField!
     @IBOutlet weak var uiLabelMissingPass: UILabel!
+    @IBOutlet weak var uiImageLogo: UIImageView!
+    @IBOutlet weak var uiLabelAppName: UILabel!
+    @IBOutlet weak var uiLabelAppFeature: UILabel!
+    @IBOutlet weak var uiBtnLogin: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,6 +80,9 @@ class MbsLoginViewController: UIViewController, UITextFieldDelegate {
         
         let tapMissingPass = UITapGestureRecognizer(target: self, action: #selector(handleTapServices))
         uiLabelMissingPass.addGestureRecognizer(tapMissingPass)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(MbsLoginViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MbsLoginViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -83,12 +90,45 @@ class MbsLoginViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0{
+                self.view.frame.origin.y -= keyboardSize.height
+                self.uiImageLogo.frame.origin.y -= keyboardSize.height
+                self.uiLabelAppName.frame.origin.y -= keyboardSize.height
+                self.uiLabelAppFeature.frame.origin.y -= keyboardSize.height
+                self.uiTextUsername.frame.origin.y -= keyboardSize.height
+                self.uiTextPassword.frame.origin.y -= keyboardSize.height
+                self.uiBtnLogin.frame.origin.y -= keyboardSize.height
+                self.uiLabelMissingPass.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y != 0{
+                self.view.frame.origin.y += keyboardSize.height
+                self.uiImageLogo.frame.origin.y += keyboardSize.height
+                self.uiLabelAppName.frame.origin.y += keyboardSize.height
+                self.uiLabelAppFeature.frame.origin.y += keyboardSize.height
+                self.uiTextUsername.frame.origin.y += keyboardSize.height
+                self.uiTextPassword.frame.origin.y += keyboardSize.height
+                self.uiBtnLogin.frame.origin.y += keyboardSize.height
+                self.uiLabelMissingPass.frame.origin.y += keyboardSize.height
+            }
+        }
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == uiTextUsername{
-            uiTextPassword.becomeFirstResponder()
+        self.view.endEditing(true)
+//        textField.resignFirstResponder()
+        if textField == self.uiTextUsername{
+//            self.uiTextPassword.becomeFirstResponder()
+            perform(#selector(handleFocus), with: nil, afterDelay: 0.3)
         } else{
             textField.resignFirstResponder()
-            performLogin()
+//            performLogin()
         }
         return true
     }
@@ -119,6 +159,10 @@ class MbsLoginViewController: UIViewController, UITextFieldDelegate {
                 }
             }
         }
+    }
+    
+    func handleFocus(){
+        self.uiTextPassword.becomeFirstResponder()
     }
     
     // MARK: - Navigation
